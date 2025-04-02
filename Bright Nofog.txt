@@ -1,5 +1,24 @@
-local lighting = game:GetService("Lighting")
-
-for _, child in ipairs(lighting:GetChildren()) do
-    child:Destroy()
+local function hideLeaves(obj)
+    if obj:IsA("Part") or obj:IsA("MeshPart") then
+        if string.find(obj.Name:lower(), "leaves") then
+            obj.Transparency = 1
+            obj.CanCollide = false
+            obj.CanTouch = false
+            obj.CanQuery = false
+        end
+    end
 end
+
+local function clearLighting()
+    local lighting = game:GetService("Lighting")
+    for _, child in ipairs(lighting:GetChildren()) do
+        child:Destroy()
+    end
+end
+
+for _, obj in ipairs(workspace:GetDescendants()) do
+    hideLeaves(obj)
+end
+clearLighting()
+
+workspace.DescendantAdded:Connect(hideLeaves)
