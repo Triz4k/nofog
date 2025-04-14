@@ -1,3 +1,6 @@
+local Players = cloneref(game:GetService("Players"))
+local Lighting = cloneref(game:GetService("Lighting"))
+
 local function hideLeaves(obj)
     if obj:IsA("Part") or obj:IsA("MeshPart") then
         if string.find(obj.Name:lower(), "leaves") then
@@ -10,8 +13,7 @@ local function hideLeaves(obj)
 end
 
 local function clearLighting()
-    local lighting = game:GetService("Lighting")
-    for _, child in ipairs(lighting:GetChildren()) do
+    for _, child in ipairs(Lighting:GetChildren()) do
         child:Destroy()
     end
 end
@@ -23,10 +25,10 @@ clearLighting()
 
 workspace.DescendantAdded:Connect(hideLeaves)
 
-local LocalPLayer = Player.LocalPlayer
-while not LocalPlayer do 
-    Player.PlayerAdded:Wait()
-    LocalPlayer = Player.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
+while not LocalPlayer do
+    Players.PlayerAdded:Wait()
+    LocalPlayer = Players.LocalPlayer
 end
 
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
@@ -34,11 +36,13 @@ local GameUI = PlayerGui:WaitForChild("GameUI")
 local BackgroundUI = GameUI:WaitForChild("BackgroundUI")
 
 local function hideEffects()
-  for _, effect in ipairs(BAckgroundUI:GetChildren()) do 
-          if effect.Name == "GasMaskUI" then
+    for _, effect in ipairs(BackgroundUI:GetChildren()) do
+        if effect.Name == "GasMaskUI" then
             effect.Vignette.ImageTransparency = 1
         end
     end
 end
+
 hideEffects()
+
 BackgroundUI.ChildAdded:Connect(hideEffects)
