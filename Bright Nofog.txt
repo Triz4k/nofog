@@ -22,3 +22,23 @@ end
 clearLighting()
 
 workspace.DescendantAdded:Connect(hideLeaves)
+
+local LocalPLayer = Player.LocalPlayer
+while not LocalPlayer do 
+    Player.PlayerAdded:Wait()
+    LocalPlayer = Player.LocalPlayer
+end
+
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local GameUI = PlayerGui:WaitForChild("GameUI")
+local BackgroundUI = GameUI:WaitForChild("BackgroundUI")
+
+local function hideEffects()
+  for _, effect in ipairs(BAckgroundUI:GetChildren()) do 
+          if effect.Name == "GasMaskUI" then
+            effect.Vignette.ImageTransparency = 1
+        end
+    end
+end
+hideEffects()
+BackgroundUI.ChildAdded:Connect(hideEffects)
